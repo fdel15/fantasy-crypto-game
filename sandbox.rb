@@ -1,57 +1,61 @@
-# Get crypto currency data
-# I want to be able to view all crypto currencies available through CoinBase
-# I want the coinbase description and links to white papers and documentation
-# I want to store this data in a local file for now
-# I want to parse the data to assign a "position" to each coin
-
 require 'byebug'
-require 'csv'
 require 'json'
-require 'net/http'
-require 'openssl'
-require 'uri'
+data_file = 'data/1638099702/1638099702_assets.json'
+COINS = ['ADA', 'ALGO', 'BTC', 'ETH', 'SOL']
 
-# I did not find this URI documented in any of the CoinBase APIs
-# I found it by inspecting the networks tab when clicking on "Trade" when signed into
-# my coinbase account.
-# This makes me believe the endpoint is unstable and could stop working one day
-url = URI('https://www.coinbase.com/api/v2/assets/info?filter=holdable&locale=en&')
+crypto = JSON.parse(File.read(data_file))['data']
+coins = crypto.select { |c| COINS.include?(c['symbol'])}
+currencies = crypto.select { |c| c['asset_type'] == 'currency' }
+platforms  = crypto.select { |c| c['asset_type'] == 'platform' }
+tokens     = crypto.select { |c| c['asset_type'] == 'token' }
 
-http = Net::HTTP.new(url.host, url.port)
-http.use_ssl = true
-
-request = Net::HTTP::Get.new(url)
-request['Accept'] = 'application/json'
-
-puts 'MAKING REQUEST...'
-response =  http.request(request)
-puts 'RESPONSE RECEIVED!'
-
-# Write data to file
-timestamp = Time.now.to_i.to_s
-
-# File.open("data/#{timestamp}_assets.json", 'w') do |f|
-#   f.puts response.body
-# end
-
-# Format data into JSON to make it easier to parse into a CSV
-json_data = JSON.parse(File.read("data/#{timestamp}_assets.json"))
-
-# Array of hash objects
-# Each hash is the data for a crypto currency
-# hash keys = id, symbol, name, slug, uri_scheme, color, asset_type, image_url,
-#             listed, description, asset_type_description, website, white_paper,
-#             exponent, unit_price_scale, transaction_unit_price_scale, conges,
-#             links, destination_tag, tradable_on_wallet, related_assets, supported
-currency_hash_array = json_data['data']
-
-CSV.open("data/#{timestamp}_assets.csv", 'w') do |csv|
-  headers = currency_hash_array.first.keys
-  csv << headers
-  currency_hash_array.each do |hash|
-    row = headers.map { |header| hash[header].to_s }
-    csv << row
+def write_asset_type_to_file(coins, asset_type)
+  coins.each do |coin|
+    File.open("data/1638099702/#{asset_type}/#{coin['slug']}.json", 'w') do |f|
+      f.puts coin
+    end
   end
 end
 
-puts "Finished"
+write_asset_type_to_file(currencies, "currencies")
+write_asset_type_to_file(platforms, "platforms")
+write_asset_type_to_file(tokens, "tokens")
+
+byebug
+puts 'finished'
+
+The world’s first cryptocurrency, Bitcoin is stored and exchanged securely on the internet through a digital ledger known as a blockchain. Bitcoins are divisible into smaller units known as satoshis — each satoshi is worth 0.00000001 bitcoin.
+
+Ethereum is a decentralized computing platform that uses ETH (also called Ether) to pay transaction fees (or “gas”). Developers can use Ethereum to run decentralized applications (dApps) and issue new crypto assets, known as Ethereum tokens.
+
+Solana is a decentralized computing platform that uses SOL to pay for transactions. Solana aims to improve blockchain scalability by using a combination of proof of stake consensus and so-called proof of history. As a result, Solana claims to be able to support 50,000 transactions per second without sacrificing decentralization.
+
+Cardano (ADA) is a blockchain platform built on a proof-of-stake consensus protocol (called Ouroboros) that validates transactions without high energy costs. Development on Cardano uses the Haskell programming language, which is described as enabling Cardano “to pursue evidence-based development for unparalleled security and stability.” The blockchain’s native token, ADA, is named after the 19th century mathematician, Ada Lovelace.
+
+Algorand is a cryptocurrency and blockchain protocol that aims to be simultaneously scalable, secure, and decentralized. It uses a consensus algorithm called pure proof-of-stake.
+
+# Contest
+# Contest has many ContestEntries
+# Contest has a status -> Active, Future, Completed
+# Contest has a start date
+# Contest has an end date
+
+# ContestEntry
+# belongs to a lineup
+# belongs to a contest
+# has a score
+
+# Line Up
+# Line up belongs to a user
+# Line up has many slots
+# Line up as a type => beta for now => type will dictate how to validate it
+# Line up can have many ContestEntries
+
+# Slot
+# Slot belongs to a line up
+# Slot belongs to a Crypto Asset
+
+# CryptoAsset
+# has a coinbase_id
+# has many slots
+# includes relevant fields from coinbase data: symbol, name, slug, coinbase_asset_type, white_paper, website,listed_on_coinbase 

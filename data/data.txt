@@ -1,0 +1,30 @@
+# Lets examine all fields in Data
+
+id                                => UUID, probably how coinbase saves the data
+symbol                            => String, how coin is recognized on most exchanges, ex: ADA for Cardano
+name                              => String, Name of cryptocurrency, e.g. Cardano
+slug                              => String, downcase version of name, probably used by coinbase for the app
+uri_scheme                        => String, not sure. it is downcased. symbol for some, name for others
+color                             => String, hex code, not important for us
+asset_type                        => String, currency, platform, or token, See data for differnt types
+image_url                         => String, not worried about this
+listed                            => Boolean, xrp, bitcoin-sv, and repv2 are the only ones not listed
+description                       => String, describes asset
+asset_type_description            => String, either Cryptocurrency or nil
+website                           => String, url for asset
+white_paper                       => String, url for white paper, 19 do not have whitepaper including dogecoin and litecoin
+exponent                          => Integer, not sure. Int values are 4,6,7,8,9,10 for all assets
+unit_price_scale                  => Integer, not sure. Int values are 2, 4, 8
+transaction_unit_price_scale      => Integer, not sure but same as unit_price_scale
+contract_address                  => String, not sure. All coins have this as ""
+address_regex                     => Nil
+price_alerts_enabled              => Boolean
+resource_urls                     => Array of JSON => maps fields to json, most likely to build UI, "type", "icon_url", "title"
+recently_listed                   => Boolean, ["gala", "ethereum-name-service", "voyager-token", "power-ledger", "alchemix", "gyen"] are currently true
+features_info                     => Nil, no values for any asset
+images                            => String => Nil, no values for any asset
+links                             => String => Nil, no values for any asset
+destination_tag                   => JSON object, nil for most values, xrp, stellar, cosmos, eos are only ones with value
+tradable_on_wallet                => Boolean, false for all coins above but there are a lot where this is true and I dont know why
+related_assets                    => Array of ids => ids correspond to Coinbase ids
+supported                         => Boolean, "xrp", "bitcoin-sv", "repv2" are only ones not supported, same as listed
