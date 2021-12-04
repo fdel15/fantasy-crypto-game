@@ -18,7 +18,7 @@ API
   - GET    /users/:user_id/lineups              -> list all lineups a user has configured
   - GET    /users/:user_id/contests             -> list all active contests a user has submitted a line up as an entry
   - GET    /lineups/new                         -> create a lineup of slots that can be populated with crypto_assets
-  - PATCH  /lineups/update/:lineup_id           -> update line up slots to reference crypto assets
+  - PATCH  /lineups/:lineup_id/update           -> update line up slots to reference crypto assets
   - DELETE /lineups/:lineup_id                  -> mark lineup as deleted
   - POST   /contest_entries                     -> creates a ContestEntry by submitting a lineup to a contest
   - DELETE /contest_entries/:contest_entry_id   -> remove contest entry from contest
