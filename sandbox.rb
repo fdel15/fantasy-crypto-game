@@ -46,6 +46,8 @@ lineup.enter_in_contest(future_contest)
 contest_entry = future_contest.contest_entries.find { |entry| entry.lineup_id == lineup.id }
 
 # Update Contest Entry
+# TODO: Contest entries should freeze the lineup once contest has started
+#       May want to create a line_up type -> one for users, one for entries that we keep in sync until a contest has started
 slots = lineup.slots.each_with_object({}) { |s, hash| hash[s.id] = [BTC, ADA, ETH].sample.id }
 lineup.update(slots)
 
