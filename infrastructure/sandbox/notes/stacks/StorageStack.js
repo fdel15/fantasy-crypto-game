@@ -2,6 +2,7 @@ import * as sst from "@serverless-stack/resources"
 
 export default class StorageStack extends sst.Stack {
   // Public reference to the table
+  bucket;
   table;
 
   constructor(scope, id, props) {
@@ -15,5 +16,8 @@ export default class StorageStack extends sst.Stack {
       },
       primaryIndex: { partitionKey: "userId", sortKey: "noteId" },
     })
+
+    // Create an S3 bucket
+    this.bucket = new sst.Bucket(this, "Uploads");
   }
 }
