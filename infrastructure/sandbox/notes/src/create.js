@@ -2,6 +2,8 @@ import * as uuid from "uuid";
 import handler from "./util/handler";
 import dynamoDb from "./util/dynamodb";
 
+// noteId":"293594d0-5c4c-11ec-9de0-215b63d97165"
+// "userId":"frankie" "noteId":"7e24de80-5c4f-11ec-ac1a-8d3a3a732a28"
 export const main = handler(async(event) => {
   // Request body is passed in as a JSON encoded string in 'event.body'
   const data = JSON.parse(event.body)
