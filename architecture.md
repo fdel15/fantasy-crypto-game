@@ -11,6 +11,7 @@ User Auth
 
 API
   - AWS API Gateway
+
   - GET    /contests                            -> list all future/active contests (similar to DK sign in)
                                                 -> can be filtered based on PAST/ACTIVE/FUTURE contests
   - GET    /contests/:contest_id                -> Information for a particular contest including rules for entry, scoring criteria, and leaderboard
